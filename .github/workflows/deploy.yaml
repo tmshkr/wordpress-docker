@@ -27,7 +27,7 @@ jobs:
         with:
           app_name: "wordpress"
           deploy: true
-          option_settings: option_settings.json
+          option_settings: option-settings.json
           platform_branch_name: "Docker running on 64bit Amazon Linux 2023"
           single_env: ${{ vars.SINGLE_ENV }}
           single_env_cname: ${{ vars.SINGLE_ENV_CNAME}}

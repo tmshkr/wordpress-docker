@@ -1,0 +1,33 @@
+name: EB Deployment
+permissions:
+  id-token: write
+  contents: read
+on:
+  workflow_dispatch:
+env:
+  GH_ACTIONS_ROLE: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ env.GH_ACTIONS_ROLE }}
+      - name: Prepare deployment package
+        run: ./scripts/deployment-prep.sh
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      - name: Deploy
+        uses: tmshkr/blue-green-beanstalk@v5
+        with:
+          app_name: "wordpress"
+          deploy: true
+          platform_branch_name: "Docker running on 64bit Amazon Linux 2023"
+          single_env: ${{ vars.SINGLE_ENV }}
+          single_env_cname: ${{ vars.SINGLE_ENV_CNAME}}
+          source_bundle: bundle.zip
+          wait_for_deployment: false

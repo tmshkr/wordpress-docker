@@ -1,0 +1,57 @@
+[
+    {
+        "Namespace": "aws:autoscaling:asg",
+        "OptionName": "MaxSize",
+        "Value": 1
+    },
+    {
+        "Namespace": "aws:autoscaling:asg",
+        "OptionName": "MinSize",
+        "Value": 1
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "EC2KeyName",
+        "Value": "aws-eb"
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "DisableIMDSv1",
+        "Value": true
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "IamInstanceProfile",
+        "Value": "aws-elasticbeanstalk-ec2-role"
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "RootVolumeSize",
+        "Value": 12
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "RootVolumeType",
+        "Value": "gp2"
+    },
+    {
+        "Namespace": "aws:autoscaling:launchconfiguration",
+        "OptionName": "SSHSourceRestriction",
+        "Value": "tcp, 22, 22, 127.0.0.1/32"
+    },
+    {
+        "Namespace": "aws:ec2:instances",
+        "OptionName": "InstanceTypes",
+        "Value": "t3.micro,t2.micro"
+    },
+    {
+        "Namespace": "aws:elasticbeanstalk:environment",
+        "OptionName": "EnvironmentType",
+        "Value": "SingleInstance"
+    },
+    {
+        "Namespace": "aws:elasticbeanstalk:environment",
+        "OptionName": "ServiceRole",
+        "Value": "service-role/aws-elasticbeanstalk-service-role"
+    }
+]

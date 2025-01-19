@@ -15,20 +15,26 @@ services:
     expose:
       - 3306
       - 33060
-  nginx:
-    image: nginx:latest
-    restart: unless-stopped
-    depends_on:
-      - wordpress
+  caddy:
+    image: caddy:2.7-alpine
+    env_file:
+      - ./caddy/.env
+    restart: always
     networks:
       - wordpress
-    ports:
-      - 80:80
-      - 443:443
+    depends_on:
+      - wordpress
     volumes:
-      - ./ssl:/etc/ssl:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/tls_auto:/etc/tls_auto
+      - ./caddy/tls_selfsigned:/etc/tls_selfsigned
       - ./wordpress:/var/www/html
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
   wordpress:
     image: wordpress:6-fpm
     networks:
@@ -36,10 +42,14 @@ services:
     depends_on:
       - db
     environment:
+      PHP_MEMORY_LIMIT: 2048M
+      PHP_ENABLE_XDEBUG: false
+      DEBUG: false
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      UPLOAD_MAX_FILESIZE: 64M
     expose:
       - 9000
     volumes:
@@ -49,3 +59,7 @@ services:
 networks:
   wordpress:
     driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

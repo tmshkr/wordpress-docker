@@ -13,6 +13,18 @@ services:
     expose:
       - 3306
       - 33060
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    environment:
+      SERVER_NAME:
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/certificate.crt:/etc/ssl/certificate.crt
+      - ./nginx/private.key:/etc/ssl/private.key
+      - ./nginx/templates:/etc/nginx/templates
   wordpress:
     image: wordpress:latest
     environment:
@@ -20,12 +32,13 @@ services:
       WORDPRESS_DB_USER:
       WORDPRESS_DB_PASSWORD:
       WORDPRESS_DB_NAME:
+    expose:
+      - 80
     volumes:
       - wp_data:/var/www/html
-    ports:
-      - 80:80
-      - 443:443
     restart: always
+
 volumes:
   db_data:
+  nginx_secrets:
   wp_data:

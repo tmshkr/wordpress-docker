@@ -1,0 +1,16 @@
+server {
+    # Listen to port 443 on both IPv4 and IPv6.
+    listen 443 ssl default_server reuseport;
+    listen [::]:443 ssl default_server reuseport;
+
+    # Domain names this server should respond to.
+    server_name ${SERVER_NAME};
+
+    # Load the certificate files.
+    ssl_certificate         /etc/ssl/certificate.crt;
+    ssl_certificate_key     /etc/ssl/private.key;
+
+    location / {
+        proxy_pass http://wordpress:80;
+    }
+}

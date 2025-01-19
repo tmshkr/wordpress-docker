@@ -1,3 +1,7 @@
 node_modules
 .env
 cdk.out
+cloudflare.ini
+certificate.csr
+certificate.crt
+private.key

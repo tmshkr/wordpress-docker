@@ -21,7 +21,7 @@ for env_var in "${required_env_vars[@]}"; do
 done
 
 # Caddy
-echo "SERVER_NAME=$SERVER_NAME" >>caddy/.env
+echo "SERVER_NAME=\"$SERVER_NAME\"" >>caddy/.env
 echo "TLS_MODE=tls_auto" >>caddy/.env
 echo "TLS_AUTO_EMAIL=$TLS_AUTO_EMAIL" >>caddy/.env
 

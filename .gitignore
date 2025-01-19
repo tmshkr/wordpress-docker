@@ -5,3 +5,4 @@ cloudflare.ini
 certificate.csr
 certificate.crt
 private.key
+wordpress

@@ -2,6 +2,8 @@ services:
   db:
     image: mariadb:10.6.4-focal
     command: "--default-authentication-plugin=mysql_native_password"
+    networks:
+      - wordpress
     environment:
       MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE:
@@ -16,27 +18,39 @@ services:
   nginx:
     image: nginx:latest
     restart: unless-stopped
+    depends_on:
+      - wordpress
+    networks:
+      - wordpress
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/certificate.crt:/etc/ssl/certificate.crt
-      - ./nginx/private.key:/etc/ssl/private.key
+      - ./ssl:/etc/ssl:ro
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./wordpress:/var/www/html
   wordpress:
-    image: wordpress:latest
+    image: wordpress:6-fpm
+    networks:
+      - wordpress
+    depends_on:
+      - db
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER:
-      WORDPRESS_DB_PASSWORD:
-      WORDPRESS_DB_NAME:
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
     expose:
-      - 80
+      - 9000
     volumes:
-      - wp_data:/var/www/html
+      - ./wordpress:/var/www/html
     restart: always
 
 volumes:
   db_data:
   nginx_secrets:
   wp_data:
+
+networks:
+  wordpress:
+    driver: bridge

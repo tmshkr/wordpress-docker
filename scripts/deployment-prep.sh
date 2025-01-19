@@ -21,8 +21,8 @@ for env_var in "${required_env_vars[@]}"; do
 done
 
 # nginx
-echo "$HTTPS_CERTIFICATE" >nginx/certificate.crt
-echo "$HTTPS_PRIVATE_KEY" >nginx/private.key
+echo "$HTTPS_CERTIFICATE" >ssl/certificate.crt
+echo "$HTTPS_PRIVATE_KEY" >ssl/private.key
 
 # MariaDB
 echo "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" >>.env

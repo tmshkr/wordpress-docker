@@ -1,7 +1,3 @@
-{
-    default_sni {$SERVER_NAME}
-}
-
 {$SERVER_NAME} {    
     import /etc/{$TLS_MODE} 
     root * /var/www/html
@@ -29,5 +25,4 @@
       X-Frame-Options "SAMEORIGIN"
       X-Content-Type-Options "nosniff"
     }
-
 }

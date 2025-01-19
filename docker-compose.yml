@@ -16,16 +16,13 @@ services:
   nginx:
     image: nginx:latest
     restart: unless-stopped
-    environment:
-      SERVER_NAME:
     ports:
       - 80:80
       - 443:443
     volumes:
       - ./nginx/certificate.crt:/etc/ssl/certificate.crt
       - ./nginx/private.key:/etc/ssl/private.key
-      - ./nginx/templates:/etc/nginx/templates
-      - ./nginx/redirect.conf:/etc/nginx/conf.d/redirect.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
   wordpress:
     image: wordpress:latest
     environment:

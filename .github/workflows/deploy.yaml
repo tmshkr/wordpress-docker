@@ -35,4 +35,5 @@ jobs:
           single_env: ${{ vars.SINGLE_ENV }}
           single_env_cname: ${{ vars.SINGLE_ENV_CNAME}}
           source_bundle: bundle.zip
+          terminate_unhealthy_environment: true
           version_label: ${{ github.ref_name }}.${{ github.sha }}

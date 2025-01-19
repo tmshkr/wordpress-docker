@@ -24,7 +24,7 @@ done
 # nginx
 echo "HTTPS_CERTIFICATE=$HTTPS_CERTIFICATE" >nginx/certificate.crt
 echo "HTTPS_PRIVATE_KEY=$HTTPS_PRIVATE_KEY" >nginx/private.key
-echo "SERVER_NAME=$SERVER_NAME" >>.env
+echo "SERVER_NAME=\"$SERVER_NAME\"" >>.env
 
 # MariaDB
 echo "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" >>.env

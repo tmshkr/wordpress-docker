@@ -25,6 +25,7 @@ services:
       - ./nginx/certificate.crt:/etc/ssl/certificate.crt
       - ./nginx/private.key:/etc/ssl/private.key
       - ./nginx/templates:/etc/nginx/templates
+      - ./nginx/redirect.conf:/etc/nginx/conf.d/redirect.conf
   wordpress:
     image: wordpress:latest
     environment:

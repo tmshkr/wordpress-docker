@@ -10,7 +10,7 @@ services:
       MYSQL_USER:
       MYSQL_PASSWORD:
     volumes:
-      - db_data:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql
     restart: always
     expose:
       - 3306
@@ -45,11 +45,6 @@ services:
     volumes:
       - ./wordpress:/var/www/html
     restart: always
-
-volumes:
-  db_data:
-  nginx_secrets:
-  wp_data:
 
 networks:
   wordpress:

@@ -9,6 +9,7 @@
         path /wp-includes/*.php
         path /wp-config.php
         path /wp-content/uploads/*.php
+        path /.*
         path /.user.ini
         path /wp-content/debug.log
     }

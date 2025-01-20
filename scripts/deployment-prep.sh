@@ -2,6 +2,10 @@
 
 # Create an array of required environment variables
 required_env_vars=(
+    "EB_DEPLOY_PRIVATE_KEY"
+    "GITHUB_ACTOR"
+    "GITHUB_REPOSITORY"
+    "GITHUB_SHA"
     "MYSQL_ROOT_PASSWORD"
     "MYSQL_PASSWORD"
     "SERVER_NAME"
@@ -24,6 +28,12 @@ done
 echo "SERVER_NAME=\"$SERVER_NAME\"" >>caddy/.env
 echo "TLS_MODE=tls_auto" >>caddy/.env
 echo "TLS_AUTO_EMAIL=$TLS_AUTO_EMAIL" >>caddy/.env
+
+# GitHub
+echo $EB_DEPLOY_PRIVATE_KEY >id_ed25519
+echo "GITHUB_ACTOR=$GITHUB_ACTOR" >>.env
+echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" >>.env
+echo "GITHUB_SHA=$GITHUB_SHA" >>.env
 
 # MariaDB
 echo "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" >>.env

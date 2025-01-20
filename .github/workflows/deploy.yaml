@@ -19,8 +19,6 @@ jobs:
       - name: Prepare deployment package
         run: ./scripts/deployment-prep.sh
         env:
-          HTTPS_CERTIFICATE: ${{ vars.HTTPS_CERTIFICATE }}
-          HTTPS_PRIVATE_KEY: ${{ secrets.HTTPS_PRIVATE_KEY }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           TAILSCALE_AUTH_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
@@ -30,11 +28,13 @@ jobs:
         uses: tmshkr/blue-green-beanstalk@v5
         with:
           app_name: "wordpress"
+          blue_env: ${{ vars.BLUE_ENV }}
           deploy: true
+          green_env: ${{ vars.GREEN_ENV }}
           option_settings: option-settings.json
           platform_branch_name: "Docker running on 64bit Amazon Linux 2023"
-          single_env: ${{ vars.SINGLE_ENV }}
-          single_env_cname: ${{ vars.SINGLE_ENV_CNAME}}
+          production_cname: ${{ vars.PRODUCTION_CNAME }}
           source_bundle: bundle.zip
+          staging_cname: ${{ vars.STAGING_CNAME }}
           terminate_unhealthy_environment: true
           version_label: ${{ github.ref_name }}.${{ github.sha }}

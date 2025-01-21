@@ -6,15 +6,11 @@ set -e
 source .env
 
 echo "Setting up git"
+dnf update
+dnf install git -y
 git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
 git config --global user.name "$GITHUB_ACTOR"
-echo
-echo "Setting up SSH"
-mkdir -p ~/.ssh
-mv id_ed25519 ~/.ssh/id_ed25519
-chmod 600 ~/.ssh/id_ed25519
 ssh-keyscan -t rsa github.com >>~/.ssh/known_hosts
-echo "Setting up git environment"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519"
 
 app_dir=$(pwd)

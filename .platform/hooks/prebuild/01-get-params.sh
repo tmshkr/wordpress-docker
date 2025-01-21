@@ -16,3 +16,5 @@ done
 
 aws ssm get-parameter --name "/$repo/DEPLOY_KEY" \
     --with-decryption --query "Parameter.Value" --output text >~/.ssh/id_ed25519
+
+chmod 600 ~/.ssh/id_ed25519

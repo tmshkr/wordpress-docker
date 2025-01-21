@@ -3,6 +3,7 @@
 set -o xtrace
 set -e
 
+echo "STAGE=staging" >>.env
 source .env
 # Retrieve parameters from AWS SSM
 repo="${GITHUB_REPOSITORY#*/}"

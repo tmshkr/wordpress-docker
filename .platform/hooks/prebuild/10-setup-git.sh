@@ -11,7 +11,7 @@ git config --global user.name "$GITHUB_ACTOR"
 echo
 echo "Setting up SSH"
 mkdir -p ~/.ssh
-mv id_ed25519 >~/.ssh/id_ed25519
+mv id_ed25519 ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
 ssh-keyscan -t rsa github.com >>~/.ssh/known_hosts
 echo "Setting up git environment"
@@ -25,8 +25,7 @@ cd $temp_dir
 git init
 git remote add origin git@github.com:$GITHUB_REPOSITORY.git
 git fetch origin $GITHUB_SHA
-git checkout $GITHUB_SHA
-git switch -c deploy_$GITHUB_SHA
+git checkout -b deploy_$GITHUB_SHA $GITHUB_SHA
 
 echo "Copying files from $temp_dir to $app_dir"
 cp -r $temp_dir/. $app_dir

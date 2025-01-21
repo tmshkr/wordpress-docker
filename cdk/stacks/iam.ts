@@ -67,6 +67,23 @@ export class IamStack extends cdk.Stack {
           "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
         ),
       ],
+      inlinePolicies: {
+        BeanstalkInstancePolicy: iam.PolicyDocument.fromJson({
+          Version: "2012-10-17",
+          Statement: [
+            {
+              Sid: "BeanstalkInstancePolicy",
+              Effect: "Allow",
+              Resource: "*",
+              Action: [
+                "elasticbeanstalk:DescribeEnvironments",
+                "elasticbeanstalk:DescribeEnvironmentResources",
+                "ssm:GetParametersByPath",
+              ],
+            },
+          ],
+        }),
+      },
     });
 
     this.exportValue(instanceRole.roleArn, {

@@ -1,3 +1,4 @@
 {
-    "app": "tsx index.ts"
+    "app": "tsx index.ts",
+    "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": true
 }

@@ -19,8 +19,6 @@ services:
       - 33060
   caddy:
     image: caddy:2.7-alpine
-    env_file:
-      - ./caddy/.env
     restart: always
     networks:
       - wordpress
@@ -37,6 +35,11 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    environment:
+      TLS_MODE:
+      SERVER_NAME:
+      TLS_AUTO_EMAIL:
+
   wordpress:
     image: wordpress:6-fpm
     networks:

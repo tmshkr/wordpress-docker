@@ -15,7 +15,10 @@
     }
     respond @forbidden "Access denied" 403
 
-    php_fastcgi wordpress:9000
+    php_fastcgi wordpress:9000 {
+        header_up Host {$WP_DOMAIN}
+    }
+
     file_server
 
     log {

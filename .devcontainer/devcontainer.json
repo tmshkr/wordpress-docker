@@ -1,0 +1,34 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/php",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": ".devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-containers",
+        "matthewpi.caddyfile-support"
+      ],
+      "settings": {
+        "remote.autoForwardPorts": true,
+        "github.codespaces.usePortForwardingServiceForHTTPS": true
+      }
+    }
+  },
+  "forwardPorts": [80,443, 8080],
+  "portsAttributes": {
+    "80": {
+      "label": "WordPress",
+      "onAutoForward": "ignore"
+    },
+    "443": {
+      "label": "WordPress",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "PHPMyAdmin",
+      "onAutoForward": "ignore"
+    }
+  }
+}

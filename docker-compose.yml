@@ -1,67 +1,64 @@
-# https://caddy.community/t/running-caddy-with-wordpress-php-fpm-with-docker-compose/21526
-
 services:
   db:
-    image: mariadb:11-jammy
+    image: mariadb:11.8.2-noble
+    container_name: db
     command: "--default-authentication-plugin=mysql_native_password"
-    networks:
-      - wordpress
     environment:
       MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE:
       MYSQL_USER:
       MYSQL_PASSWORD:
     volumes:
-      - ./dbdata:/var/lib/mysql
+      - ./db/live:/var/lib/mysql
     restart: always
     expose:
       - 3306
-      - 33060
   caddy:
-    image: caddy:2.7-alpine
-    env_file:
-      - ./caddy/.env
+    image: caddy:2.10.0
+    container_name: caddy
+    environment:
+      SERVER_NAME:
+      TLS_AUTO_EMAIL:
+      TLS_MODE:
+      WP_DOMAIN:
     restart: always
-    networks:
-      - wordpress
     depends_on:
       - wordpress
     volumes:
-      - caddy_data:/data
-      - caddy_config:/config
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/tls_auto:/etc/tls_auto
       - ./caddy/tls_selfsigned:/etc/tls_selfsigned
       - ./wordpress:/var/www/html
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - 80:80
+      - 443:443
+      - 443:443/udp
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 64M
   wordpress:
-    image: wordpress:6-fpm
-    networks:
-      - wordpress
+    build:
+      context: .
+      dockerfile: dockerfiles/wordpress.dockerfile
+    container_name: wordpress
     depends_on:
       - db
     environment:
-      PHP_MEMORY_LIMIT: 2048M
-      PHP_ENABLE_XDEBUG: false
-      DEBUG: false
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WORDPRESS_DB_USER: ${MYSQL_USER}
+      WP_HOME:
+      WP_SITEURL:
       UPLOAD_MAX_FILESIZE: 64M
     expose:
       - 9000
     volumes:
       - ./wordpress:/var/www/html
     restart: always
-
-networks:
-  wordpress:
-    driver: bridge
-
-volumes:
-  caddy_data:
-  caddy_config:

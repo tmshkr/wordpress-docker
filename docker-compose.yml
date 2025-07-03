@@ -17,10 +17,10 @@ services:
     image: caddy:2.10.0
     container_name: caddy
     environment:
-      CANONICAL_DOMAIN:
       SERVER_NAME:
       TLS_AUTO_EMAIL:
       TLS_MODE:
+      WP_DOMAIN:
     restart: always
     depends_on:
       - wordpress

@@ -6,4 +6,4 @@ certificate.csr
 certificate.crt
 private.key
 wordpress
-dbdata
+db
